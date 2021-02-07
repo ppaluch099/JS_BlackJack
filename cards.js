@@ -1,3 +1,4 @@
+// created by ppaluch099 at 20210207 20:58.
 var clubs = new Array();
         clubs[0] = new Image;
         clubs[0].src = "JPEG/2C.png";
