@@ -1,6 +1,6 @@
 const deck = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 const value = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
-var z, dea_score, pl_score, pl, dea, used = [], imgDeck;
+var z, dea_score, pl_score, pl, dea, used, imgDeck;
 
 var script = document.createElement('script');
 script.src = 'https://code.jquery.com/jquery-3.4.1.min.js';
@@ -21,6 +21,7 @@ function init() {
 		node_dea.removeChild(node_dea.lastChild);
 	}
 
+	used = [];
 	imgDeck = [];
 	z = 2;
 	let x;
