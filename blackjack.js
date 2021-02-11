@@ -1,7 +1,7 @@
-const deck = ['2', '3', '4', '5', '6', '7', '8', '9', 'J', 'Q', 'K', 'A'];
-const value = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 11];
-const imgDeck = [];
-var z, dea_score, pl_score, pl, dea;
+// created by ppaluch099 at 20210207 20:56.
+const deck = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+const value = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
+var z, dea_score, pl_score, pl, dea, used, imgDeck;
 
 var script = document.createElement('script');
 script.src = 'https://code.jquery.com/jquery-3.4.1.min.js';
@@ -22,50 +22,63 @@ function init() {
 		node_dea.removeChild(node_dea.lastChild);
 	}
 
+	used = [];
+	imgDeck = [];
 	z = 2;
+	let x;
 	pl = [];
 	dea = [];
 	dea_score = 0;
 	pl_score = 0;
 	let colour;
 	for (let i = 0; i < 2; i++) {
-		let x = Math.floor(Math.random() * deck.length);
+		x = Math.floor(Math.random() * deck.length);
 		colour = randomizer();
 		dea.push(deck[x]);
-		node_dea.appendChild(colour[x]);
-		console.log(colour[x]);
-		console.log(deck[x]);
-		console.log();
-		
+		while(true){
+			if (checkColour(colour, x) == false) {
+				node_dea.appendChild(colour[x]);
+				break;
+			}
+			else {
+				colour = randomizer();
+			}
+		}
+		used.push($(colour[x]).attr('src'));
 		if (deck[x] == 'A') {
 			dea_score = checkAce(dea_score);
 		}
 		else {
 			dea_score += value[x];
 		}
-
 		colour = randomizer();
 		x = Math.floor(Math.random() * deck.length);
 		pl.push(deck[x]);
-		node_pl.appendChild(colour[x]);
-		console.log(colour[x]);
-		console.log(deck[x]);
-		console.log();
+		while(true){
+			if (checkColour(colour, x) == false) {
+				node_pl.appendChild(colour[x]);
+				break;
+			}
+			else {
+				colour = randomizer();
+			}
+		}
+		used.push($(colour[x]).attr('src'));
 		if (deck[x] == 'A') {
 			pl_score = checkAce(pl_score);
 		}
 		else {
 			pl_score += value[x];
-		}
-		//  if ($('#area > div:contains('+content+')').length == 0) {
-		if ($('#player img').has(colour[x]) && $('#dealer img').has(colour[x]) ) console.log("problem mordo");
+		}	
 	}
 	document.getElementById("pl_label").innerHTML ="Gracz: " + pl_score;
 
 	document.getElementById("dea_label").innerHTML ="Krupier: " + dea_score;
 
 	blackCheck();
-	dealerMatch();
+	if (dea_score <=16) {
+		dealerMatch();
+	}
 }
 
 function f(){
@@ -78,6 +91,15 @@ function f(){
 	}
 	let colour;
 	colour = randomizer();
+	while(true){
+		if (checkColour(colour, x) == false) {
+			document.getElementById("player").appendChild(colour[x]);
+			break;
+		}
+		else {
+			colour = randomizer();
+		}
+	}
 	document.getElementById("player").appendChild(colour[x]);
 	document.getElementById("pl_label").innerHTML ="Gracz: " + pl_score;
 	z++;
@@ -87,8 +109,8 @@ function f(){
 }
 
 async function end(){
-	for (var i = 2; i < dea.length; i++) {
-		document.getElementById("dealer").innerHTML += " " + dea[i];
+	for (var i = 0; i < imgDeck.length; i++) {
+		document.getElementById("dealer").appendChild(imgDeck[i]);
 	}
 	document.getElementById("dea_label").innerHTML ="Krupier: " + dea_score;
 
@@ -151,14 +173,36 @@ function sleep(ms) {
 }
 
 function dealerMatch() {
+	let i = 0;
 	while (dea_score <= 16) {
 		let x = Math.floor(Math.random() * deck.length);
 		if (deck[x] == 'A') {
-			dea_score = checkAce(pl_score);
+			dea_score = checkAce(dea_score);
 		}
 		else {
 			dea_score += value[x];
 		}
 		dea.push(deck[x]);
+		colour = randomizer();
+		while(true){
+			if (checkColour(colour, x) == false) {
+				imgDeck[i] = colour[x];
+				break;
+			}
+			else {
+				colour = randomizer();
+			}
+		}
+		i++;
 	}
 }
+
+function checkColour(colour, x) {
+		if ($.inArray(($(colour[x]).attr('src')), used) !== -1) {
+			return true;
+ 		}
+		else {
+			used.push(colour[x]);
+			return false;
+		}
+	}

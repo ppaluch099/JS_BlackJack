@@ -1,7 +1,8 @@
-html	{
-	background-color: pink
+/* created by ppaluch099 at 20210207 20:58. */
+body {
+	background: url('IMG/bg.jpg');
+	color: white;
 }
-
 div {
 	text-align: center;
 	font-size: 4vw;
