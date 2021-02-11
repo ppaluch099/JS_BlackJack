@@ -45,3 +45,11 @@ img {
 	width: 10%;
 	height: 10%;
 }
+input[type=button] {
+	width:120px;
+	height:40px;
+	border: 3px solid #7a0000;
+	border-radius: 0px;
+	background-color: #f03a3a;
+	font-weight: bold;
+}
