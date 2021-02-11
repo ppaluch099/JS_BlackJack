@@ -53,7 +53,7 @@ var clubs = new Array();
         diamonds[11] = new Image;
         diamonds[11].src = "IMG/KD.png";
         diamonds[12] = new Image;
-        diamonds[12].src = "IMG/AD.png";
+        diamonds[12].src = "IMG/AcD.png";
 
         var hearts = new Array();
         hearts[0] = new Image;
